@@ -1,0 +1,43 @@
+---
+
+- name: "Launch apache container"
+    docker:
+        name: apache
+        image: eboraas/apache-php
+        ports:
+            - "80:80"
+            - "9000:9000"
+        links:
+            - mysql:mysql
+        volumes:
+            - ./logs/apache2:/var/log/apache2
+            - /Users/peter/development/ideacenter:/var/www/html/ic
+
+
+- name: "Launch database container"
+    docker:
+        name: mysql
+        image: mariadb
+        env:
+            - MYSQL_DATABASE=invent
+            - MYSQL_ROOT_PASSWORD=invent
+            - MYSQL_USER=invent
+            - MYSQL_PASSWORD=invent
+        volumes:
+            - ./data:/var/lib/mysql
+
+
+- name: "Launch phpmyadmin container"
+    docker:
+        name: phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        links:
+        - mysql:mysql
+        ports:
+            - 8183:80
+        env:
+            MYSQL_USERNAME: admin
+            MYSQL_ROOT_PASSWORD: admin
+            MYSQL_PASSWORD: admin
+            PMA_ARBITRARY: 1

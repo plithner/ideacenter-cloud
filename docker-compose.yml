@@ -3,12 +3,9 @@ apache:
     ports:
         - "80:80"
         - "9000:9000"
-    environment:
-        - ALLOW_OVERRIDE=true
     links:
         - mysql:mysql
     volumes:
-        - ./apache2.conf:/etc/apache2/apache2.conf
         - ./logs/apache2:/var/log/apache2
         - /Users/peter/development/ideacenter:/var/www/html/ic
 
